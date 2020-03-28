@@ -1,6 +1,8 @@
 package lotto;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,10 +35,18 @@ public class LottoNumber {
         }
     }
 
-    public static LottoNumber valueOf(int index) {
-        return lottoNumbers[index - 1];
+    public int getNumber() {
+        return number;
     }
 
+    public static LottoNumber valueOf(int index) {
+        return lottoNumbers.get(index - 1);
+    }
+
+    public static LottoNumber peek() {
+        Collections.shuffle(lottoNumbers);
+        return lottoNumbers.get(0);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,5 +58,10 @@ public class LottoNumber {
     @Override
     public int hashCode() {
         return Objects.hash(number);
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(number);
     }
 }

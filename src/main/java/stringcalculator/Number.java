@@ -1,16 +1,16 @@
 package stringcalculator;
 
-public class CalculatorNumber {
+public class Number {
     private static final int DEFAULT_NUMBER = 0;
     private final int number;
 
-    public CalculatorNumber(String numberString) {
+    public Number(String numberString) {
         this(Integer.parseInt(numberString));
     }
 
-    public CalculatorNumber(int number) {
-        this.number = number;
+    public Number(int number) {
         validate();
+        this.number = number;
     }
 
     private void validate() {
@@ -23,7 +23,7 @@ public class CalculatorNumber {
         return number;
     }
 
-    public CalculatorNumber add(CalculatorNumber calculatorNumber) {
-        return new CalculatorNumber(number + calculatorNumber.getNumber());
+    public Number add(Number number) {
+        return new Number(this.number + number.number);
     }
 }

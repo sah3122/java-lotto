@@ -7,15 +7,15 @@ import java.util.stream.IntStream;
 
 public class LottoShop {
 
-    private List<LottoNumber> lottoNumbers = new ArrayList<>();
-
-    public LottoShop() {
-        IntStream.of(45)
-                .forEach(value -> lottoNumbers.add(new LottoNumber(value)));
-    }
-
     public List<Lotto> buyLotto(int price) {
+        List<Lotto> lottos = new ArrayList<>();
         int lottoCount = Math.floorDiv(price, 1000);
-        return null;
+
+        for (int i = 0; i < lottoCount; i++) {
+            lottos.add(new Lotto());
+        }
+
+        return lottos;
     }
+
 }

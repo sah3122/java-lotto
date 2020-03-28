@@ -8,8 +8,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class LottoTest {
     private LottoShop lottoShop;
@@ -20,27 +23,38 @@ public class LottoTest {
     }
 
     @DisplayName("구입 금액에 맞게 로또 생성")
-    @Test
+    @ParameterizedTest
+    @ValueSource(ints = {14000})
     void createLotto(int price) {
         List<Lotto> lottos = lottoShop.buyLotto(price);
 
-        assertThat(lottos).hasSize(price/1000);
+        System.out.println(lottos);
+        assertThat(lottos).hasSize(Math.floorDiv(price, 1000));
     }
 
-    @DisplayName("당첨 로또 생성")
+    @DisplayName("특정 로또 생성")
     @ParameterizedTest
     @ValueSource(strings = {"1, 2, 3, 4, 5, 6"})
-    void checkWinning(String winningLottoNumbers) {
-        Lotto winningLotto = lottoShop.createLotto(winningLottoNumbers);
-        assertThat(winningLotto.getLottoNumbers()).containsExactly(winningLottoNumbers.split(","));
+    void checkWinning(String text) {
+        String[] lottoStrings = text.trim().split(",");
+        List<LottoNumber> lottoNumbers = Stream.of(lottoStrings)
+                .map(lottoString -> LottoNumber.valueOf(Integer.parseInt(lottoString.trim())))
+                .collect(Collectors.toList());
+
+        Lotto lotto = new Lotto(lottoStrings);
+
+        assertAll(
+                () -> assertThat(lotto.getLottoNumbers()).hasSize(lottoNumbers.size()),
+                () -> assertThat(lotto.getLottoNumbers()).containsAll(lottoNumbers)
+        );
     }
 
     @DisplayName("당첨 확인")
     @ParameterizedTest
     @CsvSource(value = {"1, 2, 3, 4, 5, 6:1, 2, 3, 4, 5, 6:6"}, delimiter = ':')
     void checkWinning(String buyingNumber, String winningLottoNumbers, int expected) {
-        Lotto buyingLotto = lottoShop.createLotto(buyingNumber);
-        Lotto winningLotto = lottoShop.createLotto(winningLottoNumbers);
+        Lotto buyingLotto = lottoShop.buyLotto(buyingNumber);
+        Lotto winningLotto = new Lotto(winningLottoNumbers);
         assertThat(lottoShop.checkWinning(buyingLotto, winningLotto)).isEqaul(expected);
     }
 }

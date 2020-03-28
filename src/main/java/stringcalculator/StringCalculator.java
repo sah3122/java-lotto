@@ -20,11 +20,11 @@ public class StringCalculator {
         }
 
         String[] tokens = tokenize(expression);
-        CalculatorNumber result = new CalculatorNumber(DEFAULT_VALUE);
+        Number result = new Number(DEFAULT_VALUE);
 
         for (String token : tokens) {
-            CalculatorNumber calculatorNumber = new CalculatorNumber(token);
-            result = result.add(calculatorNumber);
+            Number number = new Number(token);
+            result = result.add(number);
         }
 
         return result.getNumber();
