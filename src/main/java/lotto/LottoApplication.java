@@ -1,16 +1,19 @@
 package lotto;
 
 import lotto.domain.LottoResult;
+import lotto.dto.LottoRequestDto;
 import lotto.view.InputView;
 import lotto.view.ResultView;
 
 public class LottoApplication {
     public static void main(String[] args) {
-        int price = InputView.inputPrice();
+        //int price = InputView.inputPrice();
+        LottoRequestDto lottoRequestDto = InputView.inputParameters();
         LottoShop lottoShop = new LottoShop();
 
-        lottoShop.buyAuto(price);
-        ResultView.printLottoNumbers(lottoShop.getLottoBundle());
+        lottoShop.buyLotto(lottoRequestDto);
+        //lottoShop.buyAuto(price);
+        ResultView.printLottoNumbers(lottoRequestDto, lottoShop.getLottoBundle());
 
         String winningNumber = InputView.inputWinningNumber();
         int bonusNumber = InputView.inputBonusNumber();
