@@ -9,7 +9,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class InputView {
-    private static final int PRICE_PER_PIECE = 1000;
     private static final Scanner scanner = new Scanner(System.in);
 
     public static LottoRequestDto inputParameters() {
@@ -22,9 +21,7 @@ public class InputView {
 
     private static int inputPrice() {
         System.out.println("구입 금액을 입력해 주세요.");
-        int price = scanner.nextInt();
-        System.out.println(String.format("%d개를 구매 했습니다.", price / PRICE_PER_PIECE));
-        return price;
+        return scanner.nextInt();
     }
 
     private static int inputManualCount() {
@@ -41,14 +38,17 @@ public class InputView {
         return manualLottoStrings;
     }
 
+    public static LottoRequestDto inputLottoNumbers() {
+        return new LottoRequestDto(inputWinningNumber(), inputBonusNumber());
+    }
 
-    public static String inputWinningNumber() {
+    private static String inputWinningNumber() {
         System.out.println("지난 주 당첨 번호를 입력해 주세요.");
         return scanner.next();
     }
-
-    public static int inputBonusNumber() {
+    private static int inputBonusNumber() {
         System.out.println("보너스 볼을 입력해 주세요.");
         return scanner.nextInt();
     }
+
 }

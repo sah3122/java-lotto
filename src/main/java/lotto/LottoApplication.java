@@ -14,11 +14,11 @@ public class LottoApplication {
         lottoShop.buyLotto(lottoRequestDto);
         //lottoShop.buyAuto(price);
         ResultView.printLottoNumbers(lottoRequestDto, lottoShop.getLottoBundle());
+        lottoRequestDto = InputView.inputLottoNumbers();
+//        String winningNumber = InputView.inputWinningNumber();
+//        int bonusNumber = InputView.inputBonusNumber();
 
-        String winningNumber = InputView.inputWinningNumber();
-        int bonusNumber = InputView.inputBonusNumber();
-
-        LottoResult lottoResult = lottoShop.checkWinning(winningNumber, bonusNumber);
+        LottoResult lottoResult = lottoShop.checkWinning(lottoRequestDto);
         ResultView.printResult(lottoResult);
     }
 }
