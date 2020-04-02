@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class LottoShop {
-    private static final int ZERO = 0;
-
     private LottoBundle lottoBundle;
 
     public LottoShop() {
@@ -21,17 +19,17 @@ public class LottoShop {
     }
 
     public void buyLotto(LottoRequestDto lottoRequestDto) {
-        Purchase purchase = new Purchase(lottoRequestDto.getAmount(), lottoRequestDto.getManualCount());
+        Purchase purchase = new Purchase(lottoRequestDto);
 
-        lottoBundle = buyAuto(purchase.countOfAuto());
-        if (existManulLotto(lottoRequestDto)) {
-            List<String> manualLottoStrings = lottoRequestDto.getManualLottoStrings();
-            lottoBundle = lottoBundle.join(buyManual(manualLottoStrings));
-        }
+        lottoBundle = buy(purchase);
     }
 
-    private boolean existManulLotto(LottoRequestDto lottoRequestDto) {
-        return lottoRequestDto.getManualCount() > ZERO;
+    private LottoBundle buy(Purchase purchase) {
+        LottoBundle lottoBundle = buyAuto(purchase.countOfAuto());
+        if (purchase.isManual()) {
+            return lottoBundle.join(buyManual(purchase.getLottoNumbers()));
+        }
+        return lottoBundle;
     }
 
     public LottoBundle buyAuto(int lottoCount) {

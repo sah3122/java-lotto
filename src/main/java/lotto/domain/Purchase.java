@@ -1,16 +1,25 @@
 package lotto.domain;
 
+import lotto.dto.LottoRequestDto;
+
+import java.util.List;
+
 public class Purchase {
     private static final int PRICE_PER_PIECE = 1000;
+    private static final int ZERO = 0;
+
     private final int amount;
     private final int manualCount;
+    private final List<String> lottoNumbers;
 
-    public Purchase(int amount, int manualCount) {
-        validateAmount(amount);
-        this.amount = amount;
+    public Purchase(LottoRequestDto lottoRequestDto) {
+        validateAmount(lottoRequestDto.getAmount());
+        amount = lottoRequestDto.getAmount();
 
-        validateManuaulCount(manualCount);
-        this.manualCount = manualCount;
+        validateManuaulCount(lottoRequestDto.getManualCount());
+        manualCount = lottoRequestDto.getManualCount();
+
+        lottoNumbers = lottoRequestDto.getManualLottoStrings();
     }
 
     private void validateAmount(int price) {
@@ -35,5 +44,13 @@ public class Purchase {
 
     private int lottoCount() {
         return Math.floorDiv(amount, PRICE_PER_PIECE);
+    }
+
+    public boolean isManual() {
+        return manualCount > ZERO;
+    }
+
+    public List<String> getLottoNumbers() {
+        return lottoNumbers;
     }
 }
